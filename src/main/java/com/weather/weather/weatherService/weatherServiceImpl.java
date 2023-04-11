@@ -12,7 +12,7 @@ public class weatherServiceImpl implements WeatherService {
     private WeatherResponse weatherResponse;
 
     @Override
-    public WeatherResponse getWeatherData(String city) {
-        return weatherResponse.weatherDataFromWeatherApi(city);
+    public WeatherResponse getWeatherData(Long userId, String cityName, String cityRegion) {
+        return weatherResponse.weatherDataFromWeatherApi(userId, cityName, cityRegion);
     }
 }

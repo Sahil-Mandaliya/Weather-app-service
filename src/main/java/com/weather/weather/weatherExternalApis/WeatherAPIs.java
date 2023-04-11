@@ -55,14 +55,11 @@ public class WeatherAPIs {
             );
             ObjectMapper mapper = new ObjectMapper();
             WeatherApiResponse weatherResponse = mapper.convertValue(response.getBody(),WeatherApiResponse.class);
-
-            System.out.println(response.getBody());
-            System.out.println("second  = " + weatherResponse.toString());
+            weatherResponse.setBookmarkedCity(false);
             return weatherResponse;
         } catch(HttpClientErrorException e) {
             ObjectMapper mapper = new ObjectMapper();
             WeatherApiResponse weatherResponse = mapper.readValue(e.getResponseBodyAsString(),WeatherApiResponse.class);
-            System.out.println("second  = " + weatherResponse.toString());
             return weatherResponse;
         }
 

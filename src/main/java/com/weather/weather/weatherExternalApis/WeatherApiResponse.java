@@ -3,16 +3,34 @@ package com.weather.weather.weatherExternalApis;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Location {
+//    @JsonProperty("city_reference_id")
+//    private String cityReferenceId;
     @JsonProperty("name")
     private String name;
     @JsonProperty("region")
     private String region;
     @JsonProperty("country")
     private String country;
+    @JsonProperty("localtime")
+    private String localtime;
+
+    public String getLocaltime() {
+        return localtime;
+    }
+
+    public void setLocaltime(String localtime) {
+        this.localtime = localtime;
+    }
 
     public Location() {
+//        cityReferenceId="";
+        name="";
+        region="";
+        country="";
     }
 
     public String getName() {
@@ -43,8 +61,9 @@ class Location {
     public String toString() {
         return "Location{" +
                 "name='" + name + '\'' +
-                ", Region='" + region + '\'' +
-                ", Country='" + country + '\'' +
+                ", region='" + region + '\'' +
+                ", country='" + country + '\'' +
+                ", localtime='" + localtime + '\'' +
                 '}';
     }
 }
@@ -54,7 +73,7 @@ class Current {
     @JsonProperty("temp_c")
     private Float tempC;
     @JsonProperty("is_day")
-    private Boolean isDay;
+    private Integer isDay;
     @JsonProperty("condition")
     private Condition condition;
 
@@ -82,11 +101,11 @@ class Current {
         this.tempC = tempC;
     }
 
-    public Boolean getDay() {
+    public Integer getDay() {
         return isDay;
     }
 
-    public void setDay(Boolean day) {
+    public void setDay(Integer day) {
         this.isDay = day;
     }
 
@@ -198,17 +217,57 @@ class Error  {
                 '}';
     }
 }
-
+//
+//@JsonIgnoreProperties(ignoreUnknown = true)
+//class Forecast {
+//    @JsonProperty("forecastday")
+//    ArrayList<ForecastDayData> forecastDay;
+//}
+//
+//@JsonIgnoreProperties(ignoreUnknown = true)
+//class ForecastDayData {
+//    @JsonProperty("date")
+//    String date;
+//    @JsonProperty("astro")
+//    AstroData astro;
+//    @JsonProperty("hour")
+//    ArrayList<HourData> hourData;
+//}
+//
+//@JsonIgnoreProperties(ignoreUnknown = true)
+//class AstroData {
+//
+//}
+//
+//@JsonIgnoreProperties(ignoreUnknown = true)
+//class HourData {
+//    @JsonProperty("time")
+//    String time;
+//    @JsonProperty("temp_c")
+//    Float tempC;
+//    @JsonProperty("condition")
+//    Condition condition;
+//    @JsonProperty("wind_mph")
+//    Float windMph;
+//    @JsonProperty("humidity")
+//    Float humidity;
+//}
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherApiResponse {
     @JsonProperty("location")
     Location location;
     @JsonProperty("current")
     Current current;
+//    @JsonProperty("forecast")
+//    Forecast forecast;
     @JsonProperty("error")
     Error error;
 
+    @JsonProperty("isBookMarkedCity")
+    Boolean isBookmarkedCity;
+
     public WeatherApiResponse() {
+        isBookmarkedCity = false;
     }
 
     public Location getLocation() {
@@ -235,12 +294,21 @@ public class WeatherApiResponse {
         this.error = error;
     }
 
+    public Boolean getBookmarkedCity() {
+        return isBookmarkedCity;
+    }
+
+    public void setBookmarkedCity(Boolean bookmarkedCity) {
+        isBookmarkedCity = bookmarkedCity;
+    }
+
     @Override
     public String toString() {
         return "WeatherApiResponse{" +
                 "location=" + location +
                 ", current=" + current +
                 ", error=" + error +
+                ", isBookmarkedCity=" + isBookmarkedCity +
                 '}';
     }
 }
