@@ -46,8 +46,8 @@ public class UserServiceimpl implements UserService {
     }
 
     @Override
-    public List<City> getSavedCity(Long userId) {
-        List<City> cities =  new ArrayList<>();
+    public ArrayList<City> getSavedCity(Long userId) {
+        ArrayList<City> cities =  new ArrayList<>();
         String query = "select ucm.user_id, c.id, c.name, c.region, c.country, c.latitude, c.longitude " +
                 "from user_city_mapping as ucm join city as c on ucm.city_id = c.id " +
                 "where ucm.user_id = ? and ucm.is_deleted = 0";

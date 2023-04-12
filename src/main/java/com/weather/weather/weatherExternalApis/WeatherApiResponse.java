@@ -15,6 +15,10 @@ class Location {
     private String region;
     @JsonProperty("country")
     private String country;
+    @JsonProperty("lat")
+    private Float latitude;
+    @JsonProperty("lon")
+    private Float longitude;
     @JsonProperty("localtime")
     private String localtime;
 
@@ -57,12 +61,30 @@ class Location {
         this.country = country;
     }
 
+    public Float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
+
+    public Float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
+    }
+
     @Override
     public String toString() {
         return "Location{" +
                 "name='" + name + '\'' +
                 ", region='" + region + '\'' +
                 ", country='" + country + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 ", localtime='" + localtime + '\'' +
                 '}';
     }
@@ -185,12 +207,28 @@ class Condition  {
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 class Error  {
+    @JsonProperty("success")
+    Boolean success;
     @JsonProperty("code")
     Integer text;
     @JsonProperty("message")
     String message;
 
     public Error() {
+    }
+
+    public Error(Boolean success, Integer text, String message) {
+        this.success = success;
+        this.text = text;
+        this.message = message;
+    }
+
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
     }
 
     public Integer getText() {
@@ -270,6 +308,13 @@ public class WeatherApiResponse {
         isBookmarkedCity = false;
     }
 
+    public WeatherApiResponse(Location location, Current current, Error error, Boolean isBookmarkedCity) {
+        this.location = location;
+        this.current = current;
+        this.error = error;
+        this.isBookmarkedCity = isBookmarkedCity;
+    }
+
     public Location getLocation() {
         return location;
     }
@@ -309,6 +354,108 @@ public class WeatherApiResponse {
                 ", current=" + current +
                 ", error=" + error +
                 ", isBookmarkedCity=" + isBookmarkedCity +
+                '}';
+    }
+}
+
+class BulkRequestResponse {
+    @JsonProperty("bulk")
+    ArrayList<Bulk> bulk;
+
+    public BulkRequestResponse() {
+    }
+
+    public ArrayList<Bulk> getBulk() {
+        return bulk;
+    }
+
+    public void setBulk(ArrayList<Bulk> bulk) {
+        this.bulk = bulk;
+    }
+
+    @Override
+    public String toString() {
+        return "BulkRequestResponse{" +
+                "bulk=" + bulk +
+                '}';
+    }
+}
+
+class Bulk {
+    @JsonProperty("query")
+    Query query;
+
+    public Bulk() {
+    }
+
+    public Query getQuery() {
+        return query;
+    }
+
+    public void setQuery(Query query) {
+        this.query = query;
+    }
+
+    @Override
+    public String toString() {
+        return "Bulk{" +
+                "query=" + query +
+                '}';
+    }
+}
+
+class Query {
+    @JsonProperty("custom_id")
+    String customId;
+    @JsonProperty("q")
+    String query;
+    @JsonProperty("location")
+    Location location;
+    @JsonProperty("current")
+    Current current;
+
+    public Query() {
+    }
+
+    public String getCustomId() {
+        return customId;
+    }
+
+    public void setCustomId(String customId) {
+        this.customId = customId;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public Current getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(Current current) {
+        this.current = current;
+    }
+
+    @Override
+    public String toString() {
+        return "Query{" +
+                "customId='" + customId + '\'' +
+                ", query='" + query + '\'' +
+                ", location=" + location +
+                ", current=" + current +
                 '}';
     }
 }

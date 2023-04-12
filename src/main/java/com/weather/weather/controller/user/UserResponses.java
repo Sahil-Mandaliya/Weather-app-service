@@ -3,6 +3,8 @@ package com.weather.weather.controller.user;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.weather.weather.entities.City;
+import com.weather.weather.weatherExternalApis.WeatherApiResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,15 +66,18 @@ class UserSavedCitiesResponse {
     @JsonProperty("name")
     String name;
     @JsonProperty("city_data")
-    List<City> cityData;
+    List<WeatherApiResponse> cityData;
+    @JsonProperty("error")
+    Error error;
 
     public UserSavedCitiesResponse() {
     }
 
-    public UserSavedCitiesResponse(Long userId, String name, ArrayList<City> cityData) {
+    public UserSavedCitiesResponse(Long userId, String name, List<WeatherApiResponse> cityData, Error error) {
         this.userId = userId;
         this.name = name;
         this.cityData = cityData;
+        this.error = error;
     }
 
     public Long getUserId() {
@@ -91,11 +96,23 @@ class UserSavedCitiesResponse {
         this.name = name;
     }
 
-    public List<City> getCityData() {
+    public void setCityData(List<WeatherApiResponse> cityData) {
+        this.cityData = cityData;
+    }
+
+    public Error getError() {
+        return error;
+    }
+
+    public void setError(Error error) {
+        this.error = error;
+    }
+
+    public List<WeatherApiResponse> getCityData() {
         return this.cityData;
     }
 
-    public void setCityData(ArrayList<City> cityData) {
+    public void setCityData(ArrayList<WeatherApiResponse> cityData) {
         this.cityData = cityData;
     }
 }

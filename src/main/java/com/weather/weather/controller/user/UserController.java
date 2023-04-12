@@ -1,11 +1,16 @@
 package com.weather.weather.controller.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.weather.weather.entities.City;
 import com.weather.weather.entities.user.User;
 import com.weather.weather.services.user.UserService;
+import com.weather.weather.weatherExternalApis.WeatherAPIs;
+import com.weather.weather.weatherExternalApis.WeatherApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,8 +33,14 @@ public class UserController {
     public UserSavedCitiesResponse getUserSavedCitiesData(@RequestParam("user_id") Long userId) {
         UserSavedCitiesResponse res = new UserSavedCitiesResponse();
         res.userId =  userId;
-        res.cityData = userService.getSavedCity(userId);
-        return res;
+        ArrayList<City> savedCities= userService.getSavedCity(userId);
+        WeatherAPIs wapis = new WeatherAPIs();
+        try {
+            List<WeatherApiResponse> cityData = wapis.getBulkWeatherDataFromWeatherApi(savedCities);
+            return new UserSavedCitiesResponse(userId,"",cityData,null);
+        } catch(IOException e) {
+            return new UserSavedCitiesResponse(userId,"",new ArrayList<>(),new Error("Something went wrong"));
+        }
     }
 
     @PostMapping("/bookmark_city")
